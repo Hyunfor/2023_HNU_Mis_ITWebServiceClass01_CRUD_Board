@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class OracleConnectionTest {
 
-	// JUint 테스트. ppt 및 포트폴리오 작성 시 JUint 테스트도 가능하단걸 필수로 적기!
+	// JUnit 테스트. ppt 및 포트폴리오 작성 시 JUint 테스트도 가능하단걸 필수로 적기!
 	
 	// 오라클 접속정보 설정
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
