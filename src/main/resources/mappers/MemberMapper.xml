@@ -5,11 +5,11 @@
 <mapper namespace="com.mis.mapper.MemberMapper">
 
 	<select id="getTime" resultType="string">
-		select sysdate from dual
+		SELECT SYSDATE FROM DUAL
 	</select>
 	
 	<insert id="insertMember">
-		insert into tbl_member (userid,userpw, username, email) values
+		insert into tbl_member (userid, userpw, username, email) values
 		(#{userid}, #{userpw}, #{username}, #{email})
 	</insert>
 	
