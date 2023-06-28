@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mis.domain.ProductVO;
 
@@ -29,7 +31,7 @@ public class SampleController {
 	}
 
 	@RequestMapping("doC")
-	public String doC(Model model) {// 리턴타입 => 사용자 화면을 선택 => String => productDetail.jsp 리턴
+	public String doC(Model model, @ModelAttribute("msg") String msg) {// 리턴타입 => 사용자 화면을 선택 => String => productDetail.jsp 리턴
 		// WEB-INF/views/productDetail.jsp 리턴
 
 		logger.info("doC() called.....");
@@ -48,5 +50,15 @@ public class SampleController {
 		return "productDetail";
 
 	}
+	
+	@RequestMapping("doD")
+	public String doD(RedirectAttributes rttr) {// 리턴타입 => 사용자 화면을 선택 => String => redirect 명시
+		// doC 실행
+		logger.info("doD() called... but redirect to /doD....");
+		rttr.addAttribute("msg", "page move...");
+		return "redirect:/doC";
+
+	}
+
 
 }
