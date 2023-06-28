@@ -7,7 +7,7 @@
 <title>상품 정보</title>
 </head>
 <body>
-	<span>상품 이름: ${productVO.name}</span><br>
-	<span>상품 가격: ${productVO.price}</span>
+	<span>상품 이름: ${pVO.name}</span><br>
+	<span>상품 가격: ${pVO.price}</span>
 </body>
 </html>
