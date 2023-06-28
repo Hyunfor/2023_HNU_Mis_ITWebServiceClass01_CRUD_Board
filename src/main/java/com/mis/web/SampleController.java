@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mis.domain.ProductVO;
@@ -57,6 +58,20 @@ public class SampleController {
 		logger.info("doD() called... but redirect to /doD....");
 		rttr.addAttribute("msg", "page move...");
 		return "redirect:/doC";
+
+	}
+	
+	@RequestMapping("doJSON")
+	public @ResponseBody ProductVO doJSON() {// 리턴타입 => 사용자 화면을 선택 => String => productDetail.jsp 리턴
+
+		logger.info("doJSON() called.....");
+
+		// 상품정보 담기 => 추후 DB 연동
+		ProductVO vo = new ProductVO();
+		vo.setName("한글상품");
+		vo.setPrice(10000);
+
+		return vo;
 
 	}
 
