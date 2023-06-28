@@ -41,7 +41,7 @@ public class MemberDAOlmpl implements MemberDAO {
 		paramMap.put("userid", userid);
 		paramMap.put("userpw", userpw);
 		
-		return sqlSession.selectOne(namespace + ".readWithPw", paramMap);
+		return sqlSession.selectOne(namespace + ".readWithPW", paramMap);
 	}
 	
 	

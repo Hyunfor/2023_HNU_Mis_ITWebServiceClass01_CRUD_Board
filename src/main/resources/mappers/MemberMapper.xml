@@ -13,12 +13,12 @@
 					VALUES (#{userid}, #{userpw}, #{username}, #{email})
 	</insert>
 	
-	<select id="readMember" resultType="com.mis.domin.MemberVO">
+	<select id="readMember" resultType="com.mis.domain.MemberVO">
 		SELECT * FROM TBL_MEMBER
 				WHERE USERID = #{userid}
 	</select>
 	
-	<select id="readWithPW" resultType="com.mis.domin.MemberVO">
+	<select id="readWithPW" resultType="com.mis.domain.MemberVO">
 		SELECT * FROM TBL_MEMBER
 				WHERE USERID = #{userid} AND USERPW = #{userpw}
 	</select>
