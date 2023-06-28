@@ -9,3 +9,9 @@ CREATE TABLE TBL_MEMBER (
 );
 
 select * from TBL_MEMBER;
+
+SELECT * FROM TBL_MEMBER
+				WHERE USERID = ''
+                
+SELECT * FROM TBL_MEMBER
+				WHERE USERID = '' AND USERPW = ''
