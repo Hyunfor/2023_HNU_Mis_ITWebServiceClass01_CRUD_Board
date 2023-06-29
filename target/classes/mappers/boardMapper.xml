@@ -24,7 +24,7 @@
 		DELETE FROM TBL_BOARD WHERE BNO = #{bno}
 	</delete>
 	
-	<select id="listAll">
+	<select id="listAll" resultType="com.mis.domain.BoardVO">
 	<![CDATA[
 		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT
 			FROM TBL_BOARD
