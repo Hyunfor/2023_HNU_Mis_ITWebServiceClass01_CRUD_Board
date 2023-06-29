@@ -1,5 +1,7 @@
 package com.mis.test;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -15,21 +17,24 @@ import com.mis.persistence.BoardDAO;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/**/root-context.xml" })
 public class BoardDAODeleteTest {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(BoardDAODeleteTest.class);
-	
+
 	@Inject
 	private BoardDAO dao;
-	
+
 	@Test
-	public void testDelete() throws Exception{
-		
-		BoardVO vo = new BoardVO();
-		vo.setBno(4);
-		logger.info("testDelete: " + vo);
-		
-		dao.delete(vo);
+	public void testDelete() throws Exception {
+
+		dao.delete(4);
+
+		List<BoardVO> list = dao.listAll();
+
+		for (BoardVO vo : list) {
+			logger.info("testDelete: " + vo);
+
+		}
 
 	}
-	
+
 }
