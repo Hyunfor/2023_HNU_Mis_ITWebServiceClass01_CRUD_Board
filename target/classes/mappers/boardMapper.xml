@@ -5,7 +5,7 @@
 <mapper namespace="com.mis.mapper.BoardMapper">
 
 	<insert id="create">
-		INSERT INTO TBL_BOARD (BNO, TITEL, CONTENT, WRITER)
+		INSERT INTO TBL_BOARD (BNO, TITLE, CONTENT, WRITER)
 			VALUES (SEQ_BOARD.nextval, #{title}, #{content}, #{writer})
 	</insert>
 	

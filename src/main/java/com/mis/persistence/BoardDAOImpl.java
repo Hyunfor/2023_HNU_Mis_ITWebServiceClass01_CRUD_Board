@@ -20,7 +20,6 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public void create(BoardVO vo) throws Exception {
 		session.insert(namespace + ".create", vo);
-		
 	}
 
 	@Override
