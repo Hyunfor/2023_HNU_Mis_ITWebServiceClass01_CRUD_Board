@@ -21,6 +21,7 @@ public class BoardController {
 	@Inject
 	private BoardService service;
 
+	// 게시글 등록 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET() throws Exception {
 
@@ -39,7 +40,19 @@ public class BoardController {
 		// 게시글 성공 화면으로 이동 + 메시지 추가
 		model.addAttribute("result", "success");
 
-		return "/board/success";
+		return "redirect:/board/listAll";
 
 	}
+	
+	// 게시글 목록
+	@RequestMapping(value = "listAll", method = RequestMethod.GET)
+	public void listAll(Model model) throws Exception {
+
+		logger.info("register get ...");
+		
+		model.addAttribute("list", service.listAll());
+
+	}
+	
+	
 }
