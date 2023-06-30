@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mis.domain.BoardVO;
 import com.mis.service.BoardService;
@@ -61,5 +62,20 @@ public class BoardController {
 		model.addAttribute(service.read(bno));
 
 	}
+
+	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리
+	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+	public String remove(@RequestParam("bno") int bno, RedirectAttributes rttr) throws Exception {
+
+		logger.info("remove get ...");
+		
+		service.remove(bno);
+		
+		rttr.addFlashAttribute("msg", "SUCCESS");
+		
+		return "redirect:/board/listAll";
+		
+	}
+	
 
 }
