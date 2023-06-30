@@ -108,20 +108,72 @@ public class BoardController {
 	// 페이징 기능 추가
 	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
 	public void listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
-						// 이전 속성 가져오기.                          속성 추가
-		
+		// 이전 속성 가져오기. 속성 추가
+
 		logger.info("listPage get ...");
-		
+
 		// 선택된 페이지의 게시글 정보를 10개 가져오기
 		model.addAttribute("list", service.listCriteria(cri));
-		
+
 		// 페이지 네비게이션 추가
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(service.listCountCriteria(cri));
-		
+
 		// 페이징 정보 화면 전달
 		model.addAttribute("pageMaker", pageMaker);
+
+	}
+
+	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
+	public void readPage(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model)
+			throws Exception {
+
+		logger.info("readPage get ...");
+
+		model.addAttribute(service.read(bno));
+
+	}
+
+	// 게시글 수정 시 있던 페이징으로
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
+	public void modifyPageGET(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model)
+			throws Exception {
+
+		logger.info("modifyPage get ...");
+
+		model.addAttribute(service.read(bno));
+
+	}
+
+	// 게시글 실제 정보 수정
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
+	public String modifyPagePOST(BoardVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr)
+			throws Exception {
+
+		logger.info("modifyPage posts ...");
+
+		service.moidfy(vo);
+
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addFlashAttribute("msg", "SUCCESS");
+
+		return "redirect:/board/listPage";
+
+	}
+
+	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리
+	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
+	public String removePage(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) throws Exception {
+
+		logger.info("removePage get ...");
+
+		service.remove(bno);
+
+		rttr.addFlashAttribute("msg", "SUCCESS");
+
+		return "redirect:/board/listPage";
 
 	}
 
