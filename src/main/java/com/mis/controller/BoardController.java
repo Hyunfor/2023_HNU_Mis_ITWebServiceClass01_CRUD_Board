@@ -31,6 +31,7 @@ public class BoardController {
 
 	}
 
+	// 게시글 등록 정보 등록
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerPOST(BoardVO vo) throws Exception {
 
@@ -68,14 +69,37 @@ public class BoardController {
 	public String remove(@RequestParam("bno") int bno, RedirectAttributes rttr) throws Exception {
 
 		logger.info("remove get ...");
-		
+
 		service.remove(bno);
+
+		rttr.addFlashAttribute("msg", "SUCCESS");
+
+		return "redirect:/board/listAll";
+
+	}
+
+	// 게시글 수정
+	@RequestMapping(value = "/modify", method = RequestMethod.GET)
+	public void modifyGET(@RequestParam("bno") int bno, Model model) throws Exception {
+
+		logger.info("modify get ...");
+
+		model.addAttribute(service.read(bno));
+
+	}
+
+	// 게시글 실제 정보 수정
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String modifyPOST(BoardVO vo, RedirectAttributes rttr) throws Exception {
+
+		logger.info("modify posts ...");
+
+		service.moidfy(vo);
 		
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		
 		return "redirect:/board/listAll";
-		
+
 	}
-	
 
 }
