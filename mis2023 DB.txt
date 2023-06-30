@@ -31,3 +31,26 @@ CREATE TABLE TBL_BOARD (
 CREATE SEQUENCE SEQ_BOARD INCREMENT BY 1 START WITH 1;
 
 select * from TBL_BOARD;
+
+--페이징 테스트를 위해 데이터 INSERT
+INSERT INTO TBL_BOARD( bno, title, content, writer, regdate, viewcnt)
+SELECT SEQ_BOARD.nextval, title, content, writer, regdate, viewcnt FROM TBL_BOARD;
+
+SELECT * FROM TBL_BOARD WHERE bno > 0 and (rownum >= 1 AND rownum <= 10);
+
+commit;
+
+SELECT COUNT(*) FROM TBL_BOARD;
+
+-- 가상의 veiw를 가져와 뒤집어서 RNUM을 count 하도록
+SELECT * FROM( 
+			SELECT ROWNUM RNUM, BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT
+				FROM (SELECT * FROM TBL_BOARD ORDER BY BNO DESC)
+				);
+				
+SELECT * FROM( 
+			SELECT ROWNUM RNUM, BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT
+				FROM (SELECT * FROM TBL_BOARD ORDER BY BNO DESC)
+						)
+		WHERE (RNUM >= 1 AND RNUM <= 10)
+        ORDER BY BNO DESC, REGDATE DESC ;   				

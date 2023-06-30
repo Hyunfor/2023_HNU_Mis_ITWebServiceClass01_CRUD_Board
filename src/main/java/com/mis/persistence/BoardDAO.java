@@ -2,6 +2,7 @@ package com.mis.persistence;
 
 import java.util.List;
 import com.mis.domain.BoardVO;
+import com.mis.domain.Criteria;
 
 public interface BoardDAO {
 
@@ -14,5 +15,10 @@ public interface BoardDAO {
 	public void delete(int bno) throws Exception;
 
 	public List<BoardVO> listAll() throws Exception;
+	
+	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
+	
+	// 전체 게시글 수 카운트
+	public int listCountCriteria(Criteria cri) throws Exception;
 
 }
