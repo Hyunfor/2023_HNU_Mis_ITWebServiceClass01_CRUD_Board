@@ -62,6 +62,7 @@ public class SearchBoardController {
 		
 	}
 							// Param은 요청 후 사라짐
+	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
 	public void readPage(@RequestParam("bno") int bno,
 			@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 		
