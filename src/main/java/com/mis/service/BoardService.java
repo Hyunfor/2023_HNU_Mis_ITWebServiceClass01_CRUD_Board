@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mis.domain.BoardVO;
 import com.mis.domain.Criteria;
+import com.mis.domain.SearchCriteria;
 
 public interface BoardService {
 
@@ -20,7 +21,12 @@ public interface BoardService {
 	// 게시글 페이징 처리
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
 
-	// 전체 게시글 수 카운트
+	// 게시글 수 카운트
 	public int listCountCriteria(Criteria cri) throws Exception;
+	
+	// 검색 + 페이징 기능 추가
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception;
+
+	public int listSearchCount(SearchCriteria cri) throws Exception;
 
 }
