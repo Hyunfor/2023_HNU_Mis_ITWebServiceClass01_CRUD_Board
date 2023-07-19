@@ -125,6 +125,7 @@ public class BoardController {
 
 	}
 
+	// 페이지 읽어오기
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
 	public void readPage(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model)
 			throws Exception {
@@ -146,7 +147,7 @@ public class BoardController {
 
 	}
 
-	// 게시글 실제 정보 수정
+	// 게시글 실제 정보 수정 후 유저가 있던 페이징으로
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
 	public String modifyPagePOST(BoardVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr)
 			throws Exception {
@@ -163,7 +164,7 @@ public class BoardController {
 
 	}
 
-	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리
+	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리(게시글 삭제시 1페이지로 이동)
 	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
 	public String removePage(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) throws Exception {
 
