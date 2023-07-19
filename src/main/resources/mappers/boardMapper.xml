@@ -107,4 +107,10 @@
 		<include refid="search"></include>
 	</select>
 
+	<update id="updateViewCount">
+		UPDATE TBL_BOARD SET VIEWCNT = VIEWCNT + 1
+		WHERE BNO = #{bno}
+	</update>
+
+
 </mapper>

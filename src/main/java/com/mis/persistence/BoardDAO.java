@@ -27,5 +27,9 @@ public interface BoardDAO {
 	public List<BoardVO> listSearchCriteria(SearchCriteria cri) throws Exception;
 	
 	public int listSearchCountCriteria(SearchCriteria cri) throws Exception;
+	
+	// 게시글의 조회수 올리기
+	public void updateViewCount(int bno) throws Exception;
+	
 
 }

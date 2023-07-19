@@ -64,4 +64,9 @@ public class BoardDAOImpl implements BoardDAO {
 		return session.selectOne(namespace + ".listSearchCountCriteria", cri);
 	}
 
+	@Override
+	public void updateViewCount(int bno) throws Exception {
+		session.update(namespace + ".updateViewCount", bno);
+	}
+
 }

@@ -53,4 +53,11 @@ SELECT * FROM(
 				FROM (SELECT * FROM TBL_BOARD ORDER BY BNO DESC)
 						)
 		WHERE (RNUM >= 1 AND RNUM <= 10)
-        ORDER BY BNO DESC, REGDATE DESC ;   				
+        ORDER BY BNO DESC, REGDATE DESC ;   		
+
+	기능 순서        
+1. 테이블 확인
+2. DAO -> 기능 추가(method)
+3. mapper 추가
+4. DAOImpl method 구현
+5. read -> 조회수  ServiceImpl readmethod() 구현        		
