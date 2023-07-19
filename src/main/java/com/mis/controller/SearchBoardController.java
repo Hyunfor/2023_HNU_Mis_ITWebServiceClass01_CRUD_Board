@@ -69,5 +69,31 @@ public class SearchBoardController {
 		model.addAttribute(service.read(bno));
 		
 	}
+	
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
+	public void modifyPageGET(@RequestParam("bno") int bno,
+			@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+		
+		model.addAttribute(service.read(bno));
+		
+	}
+	
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
+	public String modifyPagePOST(BoardVO vo, 
+			@ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+		
+		service.moidfy(vo);
+		
+		// 수정 후 페이징 및 검색 기능 유지
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		
+		rttr.addFlashAttribute("msg", "SUCCESS");
+		
+		return "redirect:/sboard/list";
+		
+	}
 
 }
