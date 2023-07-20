@@ -54,7 +54,10 @@ public class ProductDAOImpl implements ProductDAO{
 	public int listSearchCount(SearchCriteria cri) throws Exception {
 		return session.selectOne(namespace + ".listSearchCountCriteria", cri);
 	}
-
 	
+	@Override
+	public void updateViewCount(int pno) throws Exception {
+		session.update(namespace + ".updateViewCount", pno);
+	}
 
 }

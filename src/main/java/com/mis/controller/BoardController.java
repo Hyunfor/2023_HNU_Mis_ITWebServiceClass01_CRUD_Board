@@ -97,7 +97,7 @@ public class BoardController {
 
 		logger.info("modify posts ...");
 
-		service.moidfy(vo);
+		service.modify(vo);
 
 		rttr.addFlashAttribute("msg", "SUCCESS");
 
@@ -154,7 +154,7 @@ public class BoardController {
 
 		logger.info("modifyPage posts ...");
 
-		service.moidfy(vo);
+		service.modify(vo);
 
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());

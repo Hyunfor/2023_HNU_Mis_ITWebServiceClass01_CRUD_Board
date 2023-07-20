@@ -37,7 +37,7 @@ public class ProductController {
 
 		logger.info("register post ...");
 
-		// 게시글 등록
+		// 상품 등록
 		service.register(vo);
 
 		return "redirect:/product/list";
@@ -50,31 +50,55 @@ public class ProductController {
 
 		logger.info("list get ...");
 
-		model.addAttribute("list", service.list());
+		model.addAttribute("list", service.listAll());
 
 	}
 
 	// 상세보기
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void read(@RequestParam("bno") int bno, Model model) throws Exception {
+	public void read(@RequestParam("pno") int pno, Model model) throws Exception {
 
 		logger.info("read get ...");
 
-		model.addAttribute(service.read(bno));
+		model.addAttribute(service.read(pno));
 
 	}
 
 	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public String remove(@RequestParam("bno") int bno, RedirectAttributes rttr) throws Exception {
+	public String remove(@RequestParam("pno") int pno, RedirectAttributes rttr) throws Exception {
 
 		logger.info("remove get ...");
 
-		service.remove(bno);
+		service.remove(pno);
 
 		rttr.addFlashAttribute("msg", "SUCCESS");
 
 		return "redirect:/product/list";
+
+	}
+
+	// 상품 수정
+	@RequestMapping(value = "/modify", method = RequestMethod.GET)
+	public void modifyGET(@RequestParam("pno") int pno, Model model) throws Exception {
+
+		logger.info("modify get ...");
+
+		model.addAttribute(service.read(pno));
+
+	}
+
+	// 상품 실제 정보 수정
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String modifyPOST(ProductVO vo, RedirectAttributes rttr) throws Exception {
+
+		logger.info("modify posts ...");
+
+		service.modify(vo);
+
+		rttr.addFlashAttribute("msg", "SUCCESS");
+
+		return "redirect:/product/listAll";
 
 	}
 

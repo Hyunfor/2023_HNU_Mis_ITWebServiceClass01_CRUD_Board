@@ -82,7 +82,7 @@ public class SearchBoardController {
 	public String modifyPagePOST(BoardVO vo, 
 			@ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr) throws Exception {
 		
-		service.moidfy(vo);
+		service.modify(vo);
 		
 		// 수정 후 페이징 및 검색 기능 유지
 		rttr.addAttribute("page", cri.getPage());
