@@ -24,7 +24,7 @@
 		DELETE FROM TBL_PRODUCT WHERE PNO = #{pno}
 	</delete>
 	
-	<select id="listAll" resultType="com.mis.domain.ProductVO">
+	<select id="list" resultType="com.mis.domain.ProductVO">
 	<![CDATA[
 		SELECT PNO, PNAME, PRICE, CONTENT, WRITER
 			FROM TBL_PRODUCT
@@ -32,59 +32,8 @@
         ORDER BY PNO DESC
         ]]>
 	</select>
-	
-	<select id="listCountCriteria" resultType="int">
-		SELECT COUNT(*) FROM TBL_PRODUCT
-	</select>
-	
-	<select id="listCriteria" resultType="com.mis.domain.ProductVO">
-	<![CDATA[
-		SELECT * FROM( 
-			SELECT ROWNUM RNUM, PNO, PNAME, PRICE, CONTENT, WRITER
-				FROM (SELECT * FROM TBL_PRODUCT ORDER BY PNO DESC)
-						)
-		WHERE (RNUM >= #{pageStart} AND RNUM <= #{pageEnd})
-        ORDER BY PNO DESC, REGDATE DESC
-        ]]>
-	</select>
-	
-	<!-- 동적 SQL -->
-	<sql id="search">
-		
-		<if test="searchType != null">
-		
-			<if test="searchType == 't'.toString()">
-				AND TITLE LIKE '%' || #{keyword} || '%'
-			</if>
-			<if test="searchType == 'c'.toString()">
-				AND CONTENT LIKE '%' || #{keyword} || '%'
-			</if>
-			<if test="searchType == 'w'.toString()">
-				AND WRITER LIKE '%' || #{keyword} || '%'
-			</if>
-			<if test="searchType == 'tc'.toString()">
-				AND (TITLE LIKE '%' || #{keyword} || '%')
-					 OR
-					(CONTENT LIKE '%' || #{keyword} || '%')
-			</if>
-			<if test="searchType == 'cw'.toString()">
-				AND (CONTENT LIKE '%' || #{keyword} || '%')
-					 OR
-					(WRITER LIKE '%' || #{keyword} || '%')
-			</if>
-			<if test="searchType == 'tcw'.toString()">
-				AND (TITLE LIKE '%' || #{keyword} || '%')
-					 OR
-					(CONTENT LIKE '%' || #{keyword} || '%')
-					 OR
-					(WRITER LIKE '%' || #{keyword} || '%')
-			</if>
-		
-		</if>
-		
-	</sql>
-	
-	<select id="listSearchCriteria" resultType="com.mis.domain.ProductVO">
+	<!--  
+	<select id="listSearch" resultType="com.mis.domain.ProductVO">
 	<![CDATA[
 		SELECT * FROM( 
 			SELECT ROWNUM RNUM, PNO, PNAME, PRICE, CONTENT, WRITER
@@ -99,14 +48,14 @@
         ]]>
 	</select>
 	
-	<select id="listSearchCountCriteria" resultType="int">
+	<select id="listSearchCount" resultType="int">
 	<![CDATA[	
 		SELECT COUNT(*) FROM TBL_PRODUCT
 		WHERE PNO > 0 
 	]]>	
 		<include refid="search"></include>
 	</select>
-
+	-->
 	<update id="updateViewCount">
 		UPDATE TBL_PRODUCT SET VIEWCNT = VIEWCNT + 1
 		WHERE PNO = #{pno}

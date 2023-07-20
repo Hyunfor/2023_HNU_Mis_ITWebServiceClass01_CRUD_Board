@@ -28,7 +28,7 @@ public class ProductDAODeleteTest {
 
 		dao.delete(4);
 
-		List<ProductVO> list = dao.listAll();
+		List<ProductVO> list = dao.list();
 
 		for (ProductVO vo : list) {
 			logger.info("testDelete: " + vo);

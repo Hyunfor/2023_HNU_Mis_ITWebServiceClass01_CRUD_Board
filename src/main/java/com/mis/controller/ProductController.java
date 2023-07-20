@@ -50,7 +50,7 @@ public class ProductController {
 
 		logger.info("list get ...");
 
-		model.addAttribute("list", service.listAll());
+		model.addAttribute("list", service.list());
 
 	}
 
@@ -98,7 +98,7 @@ public class ProductController {
 
 		rttr.addFlashAttribute("msg", "SUCCESS");
 
-		return "redirect:/product/listAll";
+		return "redirect:/product/list";
 
 	}
 

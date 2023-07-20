@@ -15,7 +15,7 @@ public interface ProductService {
 
 	public void remove(int pno) throws Exception;
 	
-	public List<ProductVO> listAll() throws Exception;
+	public List<ProductVO> list() throws Exception;
 
 	// 페이징, 검색 기능을 제공하는 list 가져오는 기능
 	public List<ProductVO> listSearch(SearchCriteria cri) throws Exception;

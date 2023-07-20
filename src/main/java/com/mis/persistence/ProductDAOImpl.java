@@ -41,8 +41,8 @@ public class ProductDAOImpl implements ProductDAO{
 	}
 	
 	@Override
-	public List<ProductVO> listAll() throws Exception {
-		return session.selectList(namespace + ".listAll");
+	public List<ProductVO> list() throws Exception {
+		return session.selectList(namespace + ".list");
 	}
 
 	@Override

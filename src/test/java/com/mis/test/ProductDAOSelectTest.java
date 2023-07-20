@@ -26,7 +26,7 @@ public class ProductDAOSelectTest {
 	@Test
 	public void testListSearch() throws Exception{
 		
-		List<ProductVO> list = dao.listAll();
+		List<ProductVO> list = dao.list();
 		
 		for(ProductVO vo : list) {
 			logger.info("testListSearch: " + vo);
