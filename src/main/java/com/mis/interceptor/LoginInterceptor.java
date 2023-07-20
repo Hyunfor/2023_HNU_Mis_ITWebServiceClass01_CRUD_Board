@@ -39,7 +39,29 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			
 		}
 		
+	}
+	
+	
+	
+	
+	
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+			Object handler) throws Exception {
 		
+		// postHandle() 메서드 실행 전처리
+		HttpSession session = request.getSession();
+		
+		// 중복 로그인 방지 ( 기존에 로그인 안된 계정에 대한 자원을 지워줌 )
+		if(session.getAttribute(LOGIN) != null) {
+			
+			logger.info("clear login data before");
+			session.removeAttribute(LOGIN);
+			
+		}
+		
+		
+		return true;
 	}
 
 }
