@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mis.domain.BoardVO;
 import com.mis.domain.PageMaker;
 import com.mis.domain.ProductVO;
 import com.mis.domain.SearchCriteria;
@@ -70,7 +71,8 @@ public class ProductController {
 
 	// 상세보기
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
-	public void read(@RequestParam("pno") int pno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+	public void read(@RequestParam("pno") int pno, @ModelAttribute("cri") SearchCriteria cri, Model model)
+			throws Exception {
 
 		logger.info("read get ...");
 
@@ -80,60 +82,89 @@ public class ProductController {
 
 	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리
 	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
-	public String remove(@RequestParam("pno") int pno, HttpSession session,  @ModelAttribute("cri") SearchCriteria cri,
+	public String remove(@RequestParam("pno") int pno, HttpSession session, @ModelAttribute("cri") SearchCriteria cri,
 			RedirectAttributes rttr) throws Exception {
 
 		logger.info("remove get ...");
-		
+
 		// 삭제 하려면 로그인한 정보와 게시글의 작성자가 일치
-		
+
 		// 1) 로그인 정보 가져오기
-		UserVO user = (UserVO)session.getAttribute("login");
-		
+		UserVO user = (UserVO) session.getAttribute("login");
+
 		// 2) 게시글 작성자 정보와 비교
 		// 2-1) 게시글 정보 가져오기
 		ProductVO vo = service.read(pno);
 		// 2-2) 게시글 정보와 작성자 정보 비교
-		if(user.getUsid().equals(vo.getWriter())) {
+		if (user.getUsid().equals(vo.getWriter())) {
 			// 정보 일치 - > 게시글 삭제
 			service.remove(pno);
-			
+
 			// 목록화면으로 이동
 			rttr.addFlashAttribute("msg", "SUCCESS");
 			return "redirect:/product/list";
 		} else {
-			
+
 			// 정보 불일치 - > 상세페이지로 강제 이동
 			rttr.addAttribute("pno", pno);
 			rttr.addAttribute("page", cri.getPage());
 			rttr.addAttribute("perPageNum", cri.getPerPageNum());
 			rttr.addAttribute("searchType", cri.getSearchType());
 			rttr.addAttribute("keyword", cri.getKeyword());
-			
-			rttr.addFlashAttribute("msg", "로그인 정보 불일치로 인해 삭제 불가");
+
+			rttr.addFlashAttribute("msg", "잘못된 접근 입니다.");
 
 			return "redirect:/product/list";
 		}
-		
+
 	}
 
 	// 상품 수정
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
-	public void modifyPageGET(@RequestParam("pno") int pno, Model model) throws Exception {
+	public String modifyPageGET(@RequestParam("pno") int pno, HttpSession session, 
+			@ModelAttribute("cri") SearchCriteria cri, Model model, RedirectAttributes rttr) throws Exception {
 
-		logger.info("modify get ...");
+		// 수정 하려면 로그인한 정보와 게시글의 작성자가 일치
 
-		model.addAttribute(service.read(pno));
+		// 1) 로그인 정보 가져오기
+		UserVO user = (UserVO) session.getAttribute("login");
 
+		// 2) 게시글 작성자 정보와 비교
+		// 2-1) 게시글 정보 가져오기
+		ProductVO vo = service.read(pno);
+		// 2-2) 게시글 정보와 작성자 정보 비교
+		if (user.getUsid().equals(vo.getWriter())) {
+			// 정보 일치 - > 게시글 수정
+			// 목록화면으로 이동
+			model.addAttribute(service.read(pno));
+			return "/product/modifyPage";
+		} else {
+
+			// 정보 불일치 - > 상세페이지로 강제 이동
+			rttr.addAttribute("pno", pno);
+			rttr.addAttribute("page", cri.getPage());
+			rttr.addAttribute("perPageNum", cri.getPerPageNum());
+			rttr.addAttribute("searchType", cri.getSearchType());
+			rttr.addAttribute("keyword", cri.getKeyword());
+
+			rttr.addFlashAttribute("msg", "잘못된 접근 입니다.");
+
+			return "redirect:/product/readPage";
+
+		}
 	}
 
-	// 상품 실제 정보 수정
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
-	public String modifyPOST(ProductVO vo, RedirectAttributes rttr) throws Exception {
-
-		logger.info("modify posts ...");
+	public String modifyPagePOST(ProductVO vo, @ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr)
+			throws Exception {
 
 		service.modify(vo);
+
+		// 수정 후 페이징 및 검색 기능 유지
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 
 		rttr.addFlashAttribute("msg", "SUCCESS");
 

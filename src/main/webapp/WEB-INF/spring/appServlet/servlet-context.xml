@@ -40,10 +40,6 @@
 			<mapping path="/sboard/register"/>
 			<mapping path="/sboard/modifyPage"/>
 			<mapping path="/sboard/removePage"/>
-			<beans:ref bean="AuthInterceptor"/>
-		</interceptor>
-		
-		<interceptor>
 			<mapping path="/product/register"/>
 			<mapping path="/product/modifyPage"/>
 			<mapping path="/product/removePage"/>
