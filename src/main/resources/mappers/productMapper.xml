@@ -9,8 +9,8 @@
 			VALUES (SEQ_PRODUCT.nextval, #{pname}, #{price}, #{content}, #{writer})
 	</insert>
 	
-	<select id="read" resultType="com.mis.domain.ProductVO">
-		SELECT PNO, PNAME, PRICE, CONTENT, WRITER
+	<select id="readPage" resultType="com.mis.domain.ProductVO">
+		SELECT PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
 			FROM TBL_PRODUCT
 			WHERE PNO = #{pno}
 	</select>
@@ -26,17 +26,17 @@
 	
 	<select id="list" resultType="com.mis.domain.ProductVO">
 	<![CDATA[
-		SELECT PNO, PNAME, PRICE, CONTENT, WRITER
+		SELECT PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
 			FROM TBL_PRODUCT
 			WHERE PNO > 0
         ORDER BY PNO DESC
         ]]>
 	</select>
-	<!--  
+	 
 	<select id="listSearch" resultType="com.mis.domain.ProductVO">
 	<![CDATA[
 		SELECT * FROM( 
-			SELECT ROWNUM RNUM, PNO, PNAME, PRICE, CONTENT, WRITER
+			SELECT ROWNUM RNUM, PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
 				FROM (SELECT * FROM TBL_PRODUCT WHERE PNO > 0 
 		]]>
 				<include refid="search"></include>
@@ -55,7 +55,43 @@
 	]]>	
 		<include refid="search"></include>
 	</select>
-	-->
+	
+	<!-- 동적 SQL -->
+	<sql id="search">
+		
+		<if test="searchType != null">
+		
+			<if test="searchType == 'n'.toString()">
+				AND PNAME LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND CONTENT LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'w'.toString()">
+				AND WRITER LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'nc'.toString()">
+				AND (PNAME LIKE '%' || #{keyword} || '%')
+					 OR
+					(CONTENT LIKE '%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				AND (CONTENT LIKE '%' || #{keyword} || '%')
+					 OR
+					(WRITER LIKE '%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'ncw'.toString()">
+				AND (PNAME LIKE '%' || #{keyword} || '%')
+					 OR
+					(CONTENT LIKE '%' || #{keyword} || '%')
+					 OR
+					(WRITER LIKE '%' || #{keyword} || '%')
+			</if>
+		
+		</if>
+		
+	</sql>
+	
 	<update id="updateViewCount">
 		UPDATE TBL_PRODUCT SET VIEWCNT = VIEWCNT + 1
 		WHERE PNO = #{pno}

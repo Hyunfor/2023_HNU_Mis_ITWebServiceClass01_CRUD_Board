@@ -47,12 +47,12 @@ public class ProductDAOImpl implements ProductDAO{
 
 	@Override
 	public List<ProductVO> listSearch(SearchCriteria cri) throws Exception {
-		return session.selectList(namespace + ".listSearchCriteria", cri);
+		return session.selectList(namespace + ".listSearch", cri);
 	}
 
 	@Override
 	public int listSearchCount(SearchCriteria cri) throws Exception {
-		return session.selectOne(namespace + ".listSearchCountCriteria", cri);
+		return session.selectOne(namespace + ".listSearchCount", cri);
 	}
 	
 	@Override

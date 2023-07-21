@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mis.domain.PageMaker;
 import com.mis.domain.ProductVO;
+import com.mis.domain.SearchCriteria;
 import com.mis.service.ProductService;
 
 @Controller
@@ -46,16 +49,47 @@ public class ProductController {
 
 	// 상품 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void listAll(Model model) throws Exception {
+	public void list(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 
 		logger.info("list get ...");
 
-		model.addAttribute("list", service.list());
+		// model.addAttribute("list", service.list());
+
+		// 선택된 페이지의 게시글 정보를 10개 가져오기
+		model.addAttribute("list", service.listSearch(cri));
+
+		// 페이지 네비게이션 추가
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listSearchCount(cri));
+
+		// 페이징 정보 화면 전달
+		model.addAttribute("pageMaker", pageMaker);
 
 	}
+/*
+	// 페이징 기능 추가
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+		// 이전 속성 가져오기. 속성 추가
 
+		logger.info("listPage get ...");
+
+		// 선택된 페이지의 게시글 정보를 10개 가져오기
+		model.addAttribute("list", service.listSearch(cri));
+
+		// 페이지 네비게이션 추가
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listSearchCount(cri));
+
+		// 페이징 정보 화면 전달
+		model.addAttribute("pageMaker", pageMaker);
+
+	}
+*/
 	// 상세보기
-	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
 	public void read(@RequestParam("pno") int pno, Model model) throws Exception {
 
 		logger.info("read get ...");
@@ -79,7 +113,7 @@ public class ProductController {
 	}
 
 	// 상품 수정
-	@RequestMapping(value = "/modify", method = RequestMethod.GET)
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
 	public void modifyGET(@RequestParam("pno") int pno, Model model) throws Exception {
 
 		logger.info("modify get ...");
@@ -89,7 +123,7 @@ public class ProductController {
 	}
 
 	// 상품 실제 정보 수정
-	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
 	public String modifyPOST(ProductVO vo, RedirectAttributes rttr) throws Exception {
 
 		logger.info("modify posts ...");

@@ -26,7 +26,7 @@ public class ProductDAODeleteTest {
 	@Test
 	public void testDelete() throws Exception {
 
-		dao.delete(4);
+		dao.delete(1);
 
 		List<ProductVO> list = dao.list();
 

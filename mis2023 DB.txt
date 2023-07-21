@@ -91,6 +91,11 @@ CREATE SEQUENCE SEQ_PRODUCT INCREMENT BY 1 START WITH 1;
 
 select * from TBL_PRODUCT;
 
+--페이징 테스트를 위해 데이터 INSERT
+INSERT INTO TBL_PRODUCT( pno, pname, price, content, writer, regdate, viewcnt)
+SELECT SEQ_PRODUCT.nextval, pname, price, content, writer, regdate, viewcnt FROM TBL_PRODUCT;
+commit;
+
 	기능 순서        
 1. 테이블 확인 -> VO, DTO
 2. DAO -> 기능 추가(method)
