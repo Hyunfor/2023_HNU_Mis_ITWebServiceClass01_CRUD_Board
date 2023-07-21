@@ -39,11 +39,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductVO> list() throws Exception {
-		return dao.list();
-	}
-
-	@Override
 	public List<ProductVO> listSearch(SearchCriteria cri) throws Exception {
 		return dao.listSearch(cri);
 	}

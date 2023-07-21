@@ -1,6 +1,7 @@
 package com.mis.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.mis.domain.PageMaker;
 import com.mis.domain.ProductVO;
 import com.mis.domain.SearchCriteria;
+import com.mis.domain.UserVO;
 import com.mis.service.ProductService;
 
 @Controller
@@ -49,12 +51,10 @@ public class ProductController {
 
 	// 상품 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void list(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 
 		logger.info("list get ...");
 
-		// model.addAttribute("list", service.list());
-
 		// 선택된 페이지의 게시글 정보를 10개 가져오기
 		model.addAttribute("list", service.listSearch(cri));
 
@@ -67,27 +67,7 @@ public class ProductController {
 		model.addAttribute("pageMaker", pageMaker);
 
 	}
-/*
-	// 페이징 기능 추가
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
-		// 이전 속성 가져오기. 속성 추가
 
-		logger.info("listPage get ...");
-
-		// 선택된 페이지의 게시글 정보를 10개 가져오기
-		model.addAttribute("list", service.listSearch(cri));
-
-		// 페이지 네비게이션 추가
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.listSearchCount(cri));
-
-		// 페이징 정보 화면 전달
-		model.addAttribute("pageMaker", pageMaker);
-
-	}
-*/
 	// 상세보기
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
 	public void read(@RequestParam("pno") int pno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
@@ -99,22 +79,47 @@ public class ProductController {
 	}
 
 	// 삭제하기 - > POST로 구현 - > 삭제 후 redirect처리
-	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public String remove(@RequestParam("pno") int pno, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
+	public String remove(@RequestParam("pno") int pno, HttpSession session,  @ModelAttribute("cri") SearchCriteria cri,
+			RedirectAttributes rttr) throws Exception {
 
 		logger.info("remove get ...");
+		
+		// 삭제 하려면 로그인한 정보와 게시글의 작성자가 일치
+		
+		// 1) 로그인 정보 가져오기
+		UserVO user = (UserVO)session.getAttribute("login");
+		
+		// 2) 게시글 작성자 정보와 비교
+		// 2-1) 게시글 정보 가져오기
+		ProductVO vo = service.read(pno);
+		// 2-2) 게시글 정보와 작성자 정보 비교
+		if(user.getUsid().equals(vo.getWriter())) {
+			// 정보 일치 - > 게시글 삭제
+			service.remove(pno);
+			
+			// 목록화면으로 이동
+			rttr.addFlashAttribute("msg", "SUCCESS");
+			return "redirect:/product/list";
+		} else {
+			
+			// 정보 불일치 - > 상세페이지로 강제 이동
+			rttr.addAttribute("pno", pno);
+			rttr.addAttribute("page", cri.getPage());
+			rttr.addAttribute("perPageNum", cri.getPerPageNum());
+			rttr.addAttribute("searchType", cri.getSearchType());
+			rttr.addAttribute("keyword", cri.getKeyword());
+			
+			rttr.addFlashAttribute("msg", "로그인 정보 불일치로 인해 삭제 불가");
 
-		service.remove(pno);
-
-		rttr.addFlashAttribute("msg", "SUCCESS");
-
-		return "redirect:/product/list";
-
+			return "redirect:/product/list";
+		}
+		
 	}
 
 	// 상품 수정
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
-	public void modifyGET(@RequestParam("pno") int pno, Model model) throws Exception {
+	public void modifyPageGET(@RequestParam("pno") int pno, Model model) throws Exception {
 
 		logger.info("modify get ...");
 

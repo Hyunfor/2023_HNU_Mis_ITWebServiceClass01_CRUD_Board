@@ -23,16 +23,7 @@
 	<delete id="delete">
 		DELETE FROM TBL_PRODUCT WHERE PNO = #{pno}
 	</delete>
-	
-	<select id="list" resultType="com.mis.domain.ProductVO">
-	<![CDATA[
-		SELECT PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
-			FROM TBL_PRODUCT
-			WHERE PNO > 0
-        ORDER BY PNO DESC
-        ]]>
-	</select>
-	 
+
 	<select id="listSearch" resultType="com.mis.domain.ProductVO">
 	<![CDATA[
 		SELECT * FROM( 

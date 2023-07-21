@@ -39,11 +39,6 @@ public class ProductDAOImpl implements ProductDAO{
 		session.delete(namespace + ".delete", pno);	
 		
 	}
-	
-	@Override
-	public List<ProductVO> list() throws Exception {
-		return session.selectList(namespace + ".list");
-	}
 
 	@Override
 	public List<ProductVO> listSearch(SearchCriteria cri) throws Exception {
