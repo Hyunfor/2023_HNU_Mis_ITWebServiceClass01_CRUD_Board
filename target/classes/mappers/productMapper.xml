@@ -9,7 +9,7 @@
 			VALUES (SEQ_PRODUCT.nextval, #{pname}, #{price}, #{content}, #{writer})
 	</insert>
 	
-	<select id="readPage" resultType="com.mis.domain.ProductVO">
+	<select id="read" resultType="com.mis.domain.ProductVO">
 		SELECT PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
 			FROM TBL_PRODUCT
 			WHERE PNO = #{pno}

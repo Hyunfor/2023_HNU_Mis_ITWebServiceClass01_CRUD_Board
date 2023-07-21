@@ -90,7 +90,7 @@ public class ProductController {
 */
 	// 상세보기
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
-	public void read(@RequestParam("pno") int pno, Model model) throws Exception {
+	public void read(@RequestParam("pno") int pno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 
 		logger.info("read get ...");
 
