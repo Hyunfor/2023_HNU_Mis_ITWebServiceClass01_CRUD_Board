@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%-- <%@include file="../include/header.jsp"%> --%>
 <jsp:include page="../include/header.jsp" />
@@ -52,8 +53,10 @@
 				<!-- /.box-body -->
 
 				<div class="box-footer">
-					<button type="submit" class="btn btn-warning">수정</button>
-					<button type="submit" class="btn btn-danger">삭제</button>
+					<c:if test="${productVO.writer eq login.usid }">
+						<button type="submit" class="btn btn-warning">수정</button>
+						<button type="submit" class="btn btn-danger">삭제</button>
+					</c:if>	
 					<button type="submit" class="btn btn-primary">목록</button>
 				</div>
 
