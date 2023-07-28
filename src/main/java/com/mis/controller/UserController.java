@@ -65,7 +65,7 @@ public class UserController {
 
 	}
 
-	// 회원 정보 등록
+	// 회원 관리 - 회원 정보 등록
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET() throws Exception {
 
@@ -73,15 +73,13 @@ public class UserController {
 
 	}
 
-	// 회원정보 등록
+	// 회원 관리 - 회원 정보 등록
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerPOST(UserVO vo, RedirectAttributes rttr) throws Exception {
+	public String registerPOST(UserVO vo) throws Exception {
 
 		logger.info("register post ...");
 		
 		service.create(vo);
-		
-		rttr.addFlashAttribute("msg", "SUCCESS");
 
 		return "redirect:/user/list";
 

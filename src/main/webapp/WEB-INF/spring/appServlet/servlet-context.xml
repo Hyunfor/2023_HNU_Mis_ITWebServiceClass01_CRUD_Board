@@ -32,6 +32,8 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/loginPost"/>
+			<mapping path="/user/register"/>
+			<mapping path="/user/user_register"/>
 			<beans:ref bean="LoginInterceptor"/>
 		</interceptor>
 		

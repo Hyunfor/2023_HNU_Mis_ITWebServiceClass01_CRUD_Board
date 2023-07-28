@@ -10,13 +10,13 @@
 	</select>
 	
 	<select id="read" resultType="com.mis.domain.UserVO">
-		SELECT USID, USW, UNAME, UPOINT
+		SELECT USID, UPW, UNAME, UPOINT
 			FROM TBL_USER
 			WHERE USID = #{usid}
 	</select>
 	
 	<update id="update">
-		UPDATE TBL_USER SET USW = #{upw}, UNAME = #{uname}
+		UPDATE TBL_USER SET UPW = #{upw}, UNAME = #{uname}
 			WHERE USID = #{usid}
 	</update>
 	
@@ -27,22 +27,22 @@
 	<select id="listSearch" resultType="com.mis.domain.UserVO">
 	<![CDATA[
 		SELECT * FROM( 
-			SELECT ROWNUM RNUM, USID, USW, UNAME, UPOINT
-				FROM (SELECT * FROM TBL_USER WHERE USID > 0 
+			SELECT ROWNUM RNUM, USID, UPW, UNAME, UPOINT
+				FROM (SELECT * FROM TBL_USER WHERE USID != null 
 		]]>
 				<include refid="search"></include>
 				
 	<![CDATA[			
 		ORDER BY USID DESC))
 		WHERE (RNUM >= #{pageStart} AND RNUM <= #{pageEnd})
-        ORDER BY USID DESC, REGDATE DESC
+        ORDER BY USID DESC, UPOINT DESC
         ]]>
 	</select>
 	
 	<select id="listSearchCount" resultType="int">
 	<![CDATA[	
 		SELECT COUNT(*) FROM TBL_USER
-		WHERE USID > 0 
+		WHERE USID != null 
 	]]>	
 		<include refid="search"></include>
 	</select>
