@@ -73,7 +73,7 @@ public class UserController {
 
 	}
 
-	// 회원 관리 - 회원 정보 등록
+	// 회원 정보 등록 처리
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerPOST(UserVO vo) throws Exception {
 
@@ -85,23 +85,26 @@ public class UserController {
 
 	}
 
-	// 회원 가입
-	@RequestMapping(value = "/user_register", method = RequestMethod.GET)
-	public void memberRegisterGET() throws Exception {
+	// memberRegister에서 회원 가입
+	@RequestMapping(value = "/memberRegister", method = RequestMethod.GET)
+	public String memberRegisterGET() throws Exception {
 
 		logger.info("user_register get ...");
+		
+		return "user/user_register"; // user_register.jsp로 이동
 
 	}
 
-	// 회원 가입
-	@RequestMapping(value = "/user_register", method = RequestMethod.POST)
+	// memberRegister에서 회원 가입
+	@RequestMapping(value = "/memberRegister", method = RequestMethod.POST)
 	public String memberRegisterPOST(UserVO vo) throws Exception {
 
 		logger.info("user_register post ...");
 
-		// 유저 등록
+		 // 회원 가입 처리 로직 (vo를 이용하여 데이터 저장)
 		service.create(vo);
 
+		// 회원 목록 페이지로 리다이렉트
 		return "redirect:/user/list";
 	}
 
