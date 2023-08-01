@@ -9,6 +9,11 @@
 		WHERE USID = #{usid} AND UPW = #{upw}
 	</select>
 	
+	<insert id="create">
+		INSERT INTO TBL_USER (USID, UPW, UNAME, UPOINT)
+			VALUES (SEQ_USER.nextval, #{usid}, #{upw}, #{uname}, #{upoint})
+	</insert>
+	
 	<select id="read" resultType="com.mis.domain.UserVO">
 		SELECT USID, UPW, UNAME, UPOINT
 			FROM TBL_USER

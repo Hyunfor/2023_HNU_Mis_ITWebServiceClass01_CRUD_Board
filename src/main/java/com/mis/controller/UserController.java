@@ -78,7 +78,7 @@ public class UserController {
 	public String registerPOST(UserVO vo) throws Exception {
 
 		logger.info("register post ...");
-		
+
 		service.create(vo);
 
 		return "redirect:/user/list";
@@ -159,8 +159,7 @@ public class UserController {
 
 	// 회원 삭제
 	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
-	public String remove(@RequestParam("usid") int bno, RedirectAttributes rttr,
-			String usid) throws Exception {
+	public String remove(@RequestParam("usid") int bno, RedirectAttributes rttr, String usid) throws Exception {
 
 		service.delete(usid);
 		rttr.addFlashAttribute("msg", "SUCCESS");
