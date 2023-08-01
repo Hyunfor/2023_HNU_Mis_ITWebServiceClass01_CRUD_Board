@@ -65,7 +65,8 @@
 			</if>
 			<if test="searchType == 'in'.toString()">
 				AND WRITER LIKE '%' || #{keyword} || '%'
-			</if>
+				
+		</if>
 		
 		</if>
 		
