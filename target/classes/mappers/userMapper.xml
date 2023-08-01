@@ -11,7 +11,7 @@
 	
 	<insert id="create">
 		INSERT INTO TBL_USER (USID, UPW, UNAME, UPOINT)
-			VALUES (SEQ_USER.nextval, #{usid}, #{upw}, #{uname}, #{upoint})
+			VALUES (#{usid}, #{upw}, #{uname}, #{upoint})
 	</insert>
 	
 	<select id="read" resultType="com.mis.domain.UserVO">
