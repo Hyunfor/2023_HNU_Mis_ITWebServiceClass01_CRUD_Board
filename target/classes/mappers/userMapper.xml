@@ -9,9 +9,18 @@
 		WHERE USID = #{usid} AND UPW = #{upw}
 	</select>
 	
+	<insert id="createUser">
+		INSERT INTO TBL_USER (USERID, USERPW, USERNAME, EMAIL) 
+					VALUES (#{userid}, #{userpw}, #{username}, #{email})
+	</insert>
+	
+	<!-- SEQ_USER.nextval를 처리해야 회원가입 기능이 정상적으로 작동 할 것 같음.
+		SEQ_USER.nextval지우면 회원관리에서 회원가입이 되고, 
+		#{usid}를 지우면 일반 회원 입장에서 가입 할때 회원가입이 처리가 되나 usid가 상품번호나 멤버 번호 처럼 처리됨 -->
+	
 	<insert id="create">
 		INSERT INTO TBL_USER (USID, UPW, UNAME, UPOINT)
-			VALUES (SEQ_USER.nextval, #{upw}, #{uname}, #{upoint})
+			VALUES (SEQ_USER.nextval, #{usid}, #{upw}, #{uname}, #{upoint})
 	</insert>
 	
 	<select id="read" resultType="com.mis.domain.UserVO">
@@ -65,8 +74,7 @@
 			</if>
 			<if test="searchType == 'in'.toString()">
 				AND WRITER LIKE '%' || #{keyword} || '%'
-				
-		</if>
+			</if>
 		
 		</if>
 		

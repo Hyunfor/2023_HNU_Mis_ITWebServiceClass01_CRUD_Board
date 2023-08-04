@@ -11,26 +11,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mis.domain.ProductVO;
-import com.mis.persistence.ProductDAO;
+import com.mis.domain.UserVO;
+import com.mis.persistence.UserDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/**/root-context.xml" })
-public class ProductDAODeleteTest {
+public class UserDAODeleteTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductDAODeleteTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserDAODeleteTest.class);
 
 	@Inject
-	private ProductDAO dao;
+	private UserDAO dao;
 
 	@Test
 	public void testDelete() throws Exception {
 
-		dao.delete(1);
+		dao.delete("8");
 
-		List<ProductVO> list = dao.listSearch();
+		List<UserVO> list = dao.listSearch();
 
-		for (ProductVO vo : list) {
+		for (UserVO vo : list) {
 			logger.info("testDelete: " + vo);
 
 		}
