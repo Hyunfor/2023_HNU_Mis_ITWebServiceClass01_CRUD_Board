@@ -8,15 +8,17 @@ import com.mis.domain.SearchCriteria;
 
 public interface NoticeDAO {
 
-	public int adCreate(NoticeVO vo) throws Exception; // 1. Notice 등록
+	// 1. Notice 등록 - 게시글에 소속된 첨부파일 등록을 위한 int(noticeNo) 리턴)
+	public int adCreate(NoticeVO vo) throws Exception; 
 
 	public NoticeVO read(int noticeNo) throws Exception; // 2. Notice 상세보기
 
-	public void adUpdate(NoticeVO vo) throws Exception; // 3. Notice 수정
+	// 3. Notice 수정 - 어떤게 수정된건지 확인 불가능. 전체 게시글을 싹 지우고 새로 등록시킴.
+	public void adUpdate(NoticeVO vo) throws Exception; 
 
 	public void adDelete(int noticeNo) throws Exception; // 4. Notice 삭제
+	
 	// 5. Notice 검색 가능한 목록
-
 	public List<NoticeVO> listSearch(SearchCriteria cri) throws Exception;
 
 	// 6. Notice 검색 가능한 목록 ---> 페이징 , 카운트

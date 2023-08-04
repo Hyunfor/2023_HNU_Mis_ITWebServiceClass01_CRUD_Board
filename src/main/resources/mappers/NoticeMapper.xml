@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mis.mapper.NoticeMapper">
+
+	<!-- 공지사항 등록 -->
+	<insert id="adCreate">
+		<selectKey keyProperty="noticeNo" resultType="int"
+			order="BEFORE">
+			SELECT SEQ_NOTICE.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TBL_NOTICE (NOTICE_NO, TITLE, CONTENT, REGISTER, REG_DATE)
+		VALUES (#{noticeNo}, #{title}, #{content}, #{register}, SYSDATE)
+		<!-- 발급키가 새어나오지 않도록 noticeNo으로 리턴 -->
+	</insert>
+
+	<select id="read" resultType="com.mis.domin.NoticeVO">
+
+		SELECT NOTICE_NO, TITLE, CONTENT, REGISTER, REG_DATE
+		FROM TBL_NOTICE
+		WHERE
+		NOTICE_NO = #{noticeNo}
+
+	</select>
+
+	<update id="adUpdate">
+
+		UPDATE TBL_NOTICE SET TITLE = #{title},
+		CONTENT = #{content}
+		WHERE NOTICE_NO =
+		#{noticeNo}
+
+	</update>
+
+	<delete id="adDelete">
+		DELETE FROM TBL_NOTICE WHERE NOTICE_NO = #{noticeNo)
+	</delete>
+
+
+	<!-- 동적 SQL -->
+	<sql id="search">
+
+		<if test="searchType != null">
+
+			<if test="searchType == 't'.toString()">
+				AND TITLE LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'c'.toString()">
+				AND CONTENT LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'tc'.toString()">
+				AND (TITLE LIKE '%' || #{keyword} || '%')
+				OR
+				(CONTENT LIKE '%' || #{keyword} || '%')
+			</if>
+		</if>
+
+	</sql>
+
+	<select id="listSearch" resultType="com.mis.domain.NoticeVO">
+	<![CDATA[
+		SELECT * FROM( 
+			SELECT ROWNUM RNUM, NOTICE_NO, TITLE, CONTENT, REGISTER, REG_DATE
+				FROM (SELECT * FROM TBL_NOTICE WHERE NOTICE_NO > 0 
+	]]>
+		<include refid="search"></include>
+				
+	<![CDATA[			
+		ORDER BY NOTICE_NO DESC))
+		WHERE (RNUM >= #{pageStart} AND RNUM <= #{pageEnd})
+        ORDER BY NOTICE_NO DESC, REG_DATE DESC
+    ]]>
+	</select>
+
+	<select id="listSearchCount" resultType="int">
+	<![CDATA[	
+		SELECT COUNT(*) FROM TBL_NOTICE
+		WHERE NOTICE_NO > 0 
+	]]>
+		<include refid="search"></include>
+	</select>
+	
+	<!-- 다중 파일 등록 -->
+	<insert id="insertFile">
+		INSERT INTO TBL_NOTICE_FILE (NOTICE_FILE_NO, NOTICE_FILE_NAME, NOTICE_NO)
+		VALUES (SEQ_NOTICE_FILE.NEXTVALl, #{noticeFileName}, #{noticeNo})
+	</insert>
+	
+	<!-- 다중 파일 삭제 -->
+	<insert id="deleteFile">
+		DELETE FROM TBL_NOTICE_FILE WHERE NOTICE_NO = #{noticeNo}
+	</insert>
+	
+	<!-- 파일 목록 -->
+	<select id="fileList" resultType="com.mis.domain.NoticeFileVO">
+		SELECT NOTICE_FILE_NO,
+				SUBSTR(NOTICE_FILE_NAME, 50) AS NOTICE_FILE_NAME,
+				NOTICE_FILE_NAME AS FILE_LOCATION,
+				NOTICE_NO
+		FROM TBL_NOTICE_FILE 
+		WHERE sNQTICE_NO = #{noticeNo}
+	</select>
+
+
+</mapper>
