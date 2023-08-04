@@ -28,7 +28,7 @@ public interface NoticeDAO {
 	public void insertFile(NoticeFileVO fVo) throws Exception;
 
 	// 8. 파일 삭제
-	public void deleteFile(int noticeFileNo) throws Exception;
+	public void deleteFile(int noticeNo) throws Exception;
 
 	// 9. 파일 목록
 	public List<NoticeFileVO> fileList(int noticeNo) throws Exception;

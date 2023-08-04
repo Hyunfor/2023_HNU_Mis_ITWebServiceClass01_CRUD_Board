@@ -60,8 +60,8 @@ public class NoticeDAOImpl implements NoticeDAO{
 	}
 
 	@Override
-	public void deleteFile(int noticeFileNo) throws Exception {
-		session.delete(namespace + ".deleteFile", noticeFileNo);
+	public void deleteFile(int noticeNo) throws Exception {
+		session.delete(namespace + ".deleteFile", noticeNo);
 		
 	}
 
