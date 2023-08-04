@@ -99,7 +99,7 @@
 				NOTICE_FILE_NAME AS FILE_LOCATION,
 				NOTICE_NO
 		FROM TBL_NOTICE_FILE 
-		WHERE sNQTICE_NO = #{noticeNo}
+		WHERE NOTICE_NO = #{noticeNo}
 	</select>
 
 
