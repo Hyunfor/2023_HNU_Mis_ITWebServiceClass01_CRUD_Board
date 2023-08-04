@@ -25,9 +25,10 @@ public class UserDAORegisterTest {
 	public void testCreate() throws Exception{
 		
 		UserVO vo = new UserVO();
-		vo.setUsid("new01");
-		vo.setUpw("new01");
-		vo.setUname("new01");
+		vo.setUsid("new10");
+		vo.setUpw("new10");
+		vo.setUname("new10");
+		vo.setUpoint(0);
 		
 		logger.info("testCreate: " + vo);
 		

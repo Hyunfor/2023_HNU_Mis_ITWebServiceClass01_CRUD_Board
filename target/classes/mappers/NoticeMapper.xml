@@ -33,7 +33,7 @@
 	</update>
 
 	<delete id="adDelete">
-		DELETE FROM TBL_NOTICE WHERE NOTICE_NO = #{noticeNo)
+		DELETE FROM TBL_NOTICE WHERE NOTICE_NO = #{noticeNo}
 	</delete>
 
 
