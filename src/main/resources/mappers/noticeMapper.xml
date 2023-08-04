@@ -28,8 +28,7 @@
 
 		UPDATE TBL_NOTICE SET TITLE = #{title},
 		CONTENT = #{content}
-		WHERE NOTICE_NO =
-		#{noticeNo}
+		WHERE NOTICE_NO = #{noticeNo}
 
 	</update>
 
@@ -49,7 +48,7 @@
 			<if test="searchType == 'c'.toString()">
 				AND CONTENT LIKE '%' || #{keyword} || '%'
 			</if>
-			<if test="searchType == 'tc'.toString()">
+			<if test="searchType == 'nn'.toString()">
 				AND (TITLE LIKE '%' || #{keyword} || '%')
 				OR
 				(CONTENT LIKE '%' || #{keyword} || '%')
@@ -84,7 +83,7 @@
 	<!-- 다중 파일 등록 -->
 	<insert id="insertFile">
 		INSERT INTO TBL_NOTICE_FILE (NOTICE_FILE_NO, NOTICE_FILE_NAME, NOTICE_NO)
-		VALUES (SEQ_NOTICE_FILE.NEXTVALl, #{noticeFileName}, #{noticeNo})
+		VALUES (SEQ_NOTICE_FILE.NEXTVAL, #{noticeFileName}, #{noticeNo})
 	</insert>
 	
 	<!-- 다중 파일 삭제 -->
