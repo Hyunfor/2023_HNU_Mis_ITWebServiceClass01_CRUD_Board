@@ -3,7 +3,6 @@ package com.mis.persistence;
 import java.util.List;
 
 import com.mis.DTO.LoginDTO;
-import com.mis.domain.ProductVO;
 import com.mis.domain.SearchCriteria;
 import com.mis.domain.UserVO;
 
@@ -13,7 +12,7 @@ public interface UserDAO {
 
 	public void create(UserVO vo) throws Exception;
 
-	public ProductVO read(String usid) throws Exception;
+	public UserVO read(String usid) throws Exception;
 
 	public void update(UserVO vo) throws Exception;
 

@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.mis.DTO.LoginDTO;
-import com.mis.domain.ProductVO;
 import com.mis.domain.SearchCriteria;
 import com.mis.domain.UserVO;
 import com.mis.persistence.UserDAO;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ProductVO read(String usid) throws Exception {
+	public UserVO read(String usid) throws Exception {
 		return dao.read(usid);
 	}
 

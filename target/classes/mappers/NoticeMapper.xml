@@ -15,7 +15,7 @@
 		<!-- 발급키가 새어나오지 않도록 noticeNo으로 리턴 -->
 	</insert>
 
-	<select id="read" resultType="com.mis.domin.NoticeVO">
+	<select id="read" resultType="com.mis.domain.NoticeVO">
 
 		SELECT NOTICE_NO, TITLE, CONTENT, REGISTER, REG_DATE
 		FROM TBL_NOTICE

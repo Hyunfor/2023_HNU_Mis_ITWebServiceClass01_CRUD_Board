@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.mis.DTO.LoginDTO;
-import com.mis.domain.ProductVO;
 import com.mis.domain.SearchCriteria;
 import com.mis.domain.UserVO;
 
@@ -32,7 +31,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public ProductVO read(String usid) throws Exception {
+	public UserVO read(String usid) throws Exception {
 		return sqlSession.selectOne(namespace + ".create", usid);
 	}
 
