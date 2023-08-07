@@ -30,7 +30,8 @@
 	</select>
 	
 	<update id="update">
-		UPDATE TBL_USER SET UPW = #{upw}, UNAME = #{uname}
+		UPDATE TBL_USER SET UNAME = #{uname}, UPW = #{upw}, 
+			UPOINT = #{upoint}
 			WHERE USID = #{usid}
 	</update>
 	
@@ -42,21 +43,21 @@
 	<![CDATA[
 		SELECT * FROM( 
 			SELECT ROWNUM RNUM, USID, UPW, UNAME, UPOINT
-				FROM (SELECT * FROM TBL_USER WHERE USID != null 
+				FROM (SELECT * FROM TBL_USER WHERE USID IS NOT null 
 		]]>
 				<include refid="search"></include>
 				
 	<![CDATA[			
 		ORDER BY USID DESC))
 		WHERE (RNUM >= #{pageStart} AND RNUM <= #{pageEnd})
-        ORDER BY USID DESC, UPOINT DESC
+        ORDER BY USID DESC
         ]]>
 	</select>
 	
 	<select id="listSearchCount" resultType="int">
 	<![CDATA[	
 		SELECT COUNT(*) FROM TBL_USER
-		WHERE USID != null 
+		WHERE USID IS NOT null 
 	]]>	
 		<include refid="search"></include>
 	</select>
@@ -67,13 +68,15 @@
 		<if test="searchType != null">
 		
 			<if test="searchType == 'i'.toString()">
-				AND PNAME LIKE '%' || #{keyword} || '%'
+				AND USID LIKE '%' || #{keyword} || '%'
 			</if>
 			<if test="searchType == 'n'.toString()">
-				AND CONTENT LIKE '%' || #{keyword} || '%'
+				AND UNAME LIKE '%' || #{keyword} || '%'
 			</if>
 			<if test="searchType == 'in'.toString()">
-				AND WRITER LIKE '%' || #{keyword} || '%'
+				AND (USID LIKE '%' || #{keyword} || '%')
+				OR
+				(UNAME LIKE '%' || #{keyword} || '%')
 			</if>
 		
 		</if>

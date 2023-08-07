@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO{
 
 	@Override
 	public UserVO read(String usid) throws Exception {
-		return sqlSession.selectOne(namespace + ".create", usid);
+		return sqlSession.selectOne(namespace + ".read", usid);
 	}
 
 	@Override

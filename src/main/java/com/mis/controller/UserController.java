@@ -103,20 +103,44 @@ public class UserController {
 
 	// 회원 상세보기
 	@RequestMapping(value = "/readPage", method = RequestMethod.GET)
-	public void readPage(@RequestParam("usid") int bno, @ModelAttribute("cri") SearchCriteria cri, Model model,
-			String usid) throws Exception {
-
+	public void readPage(@RequestParam("usid") String usid, @ModelAttribute("cri") SearchCriteria cri, Model model)
+			throws Exception {
+		logger.info("readPage.....");
 		model.addAttribute(service.read(usid));
-
 	}
 
 	// 회원정보 수정
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
-	public void modifyPageGET(@RequestParam("usid") int bno, @ModelAttribute("cri") SearchCriteria cri, Model model,
-			String usid) throws Exception {
+	public String modifyPageGET(@RequestParam("usid") String usid, HttpSession session,
+			@ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr, Model model) throws Exception {
+		logger.info("modifyPage GET.....");
 
-		model.addAttribute(service.read(usid));
+		// 수정할 수 있으려면, 로그인한 정보와 글의 작성자의 정보가 동일할 때만 수정 page로 이동.
 
+		// 1) 로그인 정보 가져오기
+		UserVO user = (UserVO) session.getAttribute("login");
+
+		// 2) 게시글의 작성자 id와 로그인 정보 id를 비교.
+		// 2-1) 게시글 정보 가져오기
+		UserVO product = service.read(usid);
+
+		// 2-2) 게시글 작성자와 id와 로그인 정보 id 비교.
+		if (user.getUsid().equals(product.getUsid())) {
+			// 작성자와 로그인 정보 같음.
+			model.addAttribute(product);
+			// 수정 페이지로 이동.
+			return "/user/modifyPage";
+		} else {
+			// 로그인 정보와 게시글 작성자가 일치하지 않는 경우 -> 강제이동
+			rttr.addAttribute("usid", usid);
+			rttr.addAttribute("page", cri.getPage());
+			rttr.addAttribute("perPageNum", cri.getPerPageNum());
+			rttr.addAttribute("searchType", cri.getSearchType());
+			rttr.addAttribute("keyword", cri.getKeyword());
+			rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
+
+			return "redirect:/user/readPage";
+		}
 	}
 
 	@RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
@@ -139,13 +163,40 @@ public class UserController {
 
 	// 회원 삭제
 	@RequestMapping(value = "/removePage", method = RequestMethod.POST)
-	public String remove(@RequestParam("usid") int bno, RedirectAttributes rttr, String usid) throws Exception {
+	public String removePagePOST(@RequestParam("usid") String usid, HttpSession session,
+			@ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr, Model model) throws Exception {
+		logger.info("removePage POST.....");
+ 
+		// 삭제하려면 로그인한 정보와 게시글의 작성자가 일치.
 
-		service.delete(usid);
-		rttr.addFlashAttribute("msg", "SUCCESS");
+		// 1) 로그인 정보 가져오기
+		UserVO user = (UserVO) session.getAttribute("login");
 
-		return "redirect:/user/list";
+		// 2) 게시글의 작성자 id와 로그인 정보 id를 비교.
+		// 2-1) 게시글 정보 가져오기
+		UserVO product = service.read(usid);
+
+		// 2-2) 게시글 작성자와 id와 로그인 정보 id 비교.
+		if (user.getUsid().equals(product.getUsid())) {
+			// 작성자와 로그인 정보 같음 -> 게시글 삭제
+			logger.info("remove POST.....");
+			service.delete(usid);
+			// 목록화면으로 이동.
+			rttr.addFlashAttribute("msg", "SUCCESS");
+			return "redirect:/user/list";
+		} else {
+			// 로그인 정보와 게시글 작성자가 일치하지 않는 경우 -> 상세페이지로 강제이동
+			rttr.addAttribute("usid", usid);
+			rttr.addAttribute("page", cri.getPage());
+			rttr.addAttribute("perPageNum", cri.getPerPageNum());
+			rttr.addAttribute("searchType", cri.getSearchType());
+			rttr.addAttribute("keyword", cri.getKeyword());
+			rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
+
+			return "redirect:/user/readPage";
+		}
 	}
+
 
 	// memberRegister에서 회원 가입
 	@RequestMapping(value = "/memberRegister", method = RequestMethod.GET)

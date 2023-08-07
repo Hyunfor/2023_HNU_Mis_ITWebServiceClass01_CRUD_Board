@@ -39,13 +39,14 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/loginPost" />
-			<mapping path="/user/register" />
-			<mapping path="/user/user_register" />
 			<beans:ref bean="LoginInterceptor" />
 		</interceptor>
 
 
 		<interceptor>
+		
+			<mapping path="/user/modifyPage" />
+			<mapping path="/user/removePage" />
 			<mapping path="/sboard/register" />
 			<mapping path="/sboard/modifyPage" />
 			<mapping path="/sboard/removePage" />
