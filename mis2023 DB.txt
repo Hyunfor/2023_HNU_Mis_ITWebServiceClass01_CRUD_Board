@@ -38,7 +38,6 @@ INSERT INTO TBL_USER(USID,UPW,UNAME) VALUES ('user03','user03','Thor');
 INSERT INTO TBL_USER(USID,UPW,UNAME) VALUES ('user10','user10','Quick Silver');                
 commit
 				
-
 ## Board 
 CREATE TABLE TBL_BOARD (
 	BNO NUMBER NOT NULL, 
